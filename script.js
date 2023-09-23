@@ -1,3 +1,5 @@
+import API_KEY from './apiKey.js';
+
 const searchButton = document.querySelector('.search-button');
 const container = document.querySelector('.news-container');
 
@@ -9,13 +11,11 @@ searchButton.addEventListener('click', () => {
   console.log(searchButton);
 });
 
-const API_KEY = 'MDX5HeGIeE4rBuEBpSq1xAakAJvZkZw3';
-
 // Most Popular News
 async function popularNews() {
   const response = await fetch(`https://api.nytimes.com/svc/mostpopular/v2/viewed/1.json?api-key=${API_KEY}`);
   const popularList = await response.json();
-  const popularListLimited = popularList.results.slice(0, 5);
+  const popularListLimited = popularList.results.slice(0, 3);
   let cards = '';
   popularListLimited.forEach((m) => (cards += showPopularNews(m)));
   console.log(popularList.results);
