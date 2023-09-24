@@ -6,20 +6,7 @@
     <title>NYTimes</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
   </head>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      /* border: 1px solid red; */
-      font-family: 'Times New Roman', Times, serif;
-    }
-
-    body {
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-  </style>
+  <link rel="stylesheet" href="style.css" />
   <body>
     <header class="container-fluid px-0 d-flex flex-column justify-content-center mt-5 py-4">
       <nav class="navbar-container">
@@ -96,25 +83,7 @@
       </nav>
     </header>
     <main>
-      <section class="container pt-4">
-        <div class="d-flex flex-row justify-content-between">
-          <div class="category bg-dark-subtle p-2">N.Y.</div>
-          <div class="date text-black-50 p-2">September 22, 2023</div>
-        </div>
-        <div class="row justify-content-between pb-3 border-bottom">
-          <div class="col-md-5">
-            <h2 class="text-content fw-bold">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Omnis, sed.</h2>
-            <p class="m-0 text-black-50">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ab, laboriosam.</p>
-            <p class="m-0">
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Officia tempore eaque numquam ratione voluptatum libero asperiores laborum facilis sed quibusdam quos cupiditate saepe soluta, minima magni, nesciunt, nam est? Vitae.
-            </p>
-          </div>
-          <div class="col-md-6 d-flex flex-row justify-content-end">
-            <img src="https://placeholder.pics/svg/300" alt="" />
-          </div>
-        </div>
-        <div class="row news-container pt-3"></div>
-      </section>
+      <section class="news-container container-fluid d-flex flex-row flex-wrap justify-content-between gap-3 pt-4"></section>
     </main>
     <script type="module" src="script.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>

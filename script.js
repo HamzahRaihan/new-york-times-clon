@@ -3,6 +3,21 @@ import API_KEY from './apiKey.js';
 const searchButton = document.querySelector('.search-button');
 const container = document.querySelector('.news-container');
 
+const formatSection = (section) => {
+  switch (section) {
+    case 'us':
+      return 'U.S.';
+    case 'nyregion':
+      return 'N.Y.';
+    case 't-magazine':
+      return 'magazine';
+    case 'realestate':
+      return 'real estate';
+    default:
+      return section;
+  }
+};
+
 searchButton.addEventListener('click', () => {
   const inputKeyword = document.querySelector('.input-keyword ').value;
   const search = searchNews(inputKeyword);
@@ -12,14 +27,14 @@ searchButton.addEventListener('click', () => {
 });
 
 // Most Popular News
-async function popularNews() {
-  const response = await fetch(`https://api.nytimes.com/svc/mostpopular/v2/viewed/1.json?api-key=${API_KEY}`);
-  const popularList = await response.json();
-  const popularListLimited = popularList.results.slice(0, 3);
+async function homeSection() {
+  const response = await fetch(`https://api.nytimes.com/svc/topstories/v2/home.json?api-key=${API_KEY}`);
+  const homeNews = await response.json();
   let cards = '';
-  popularListLimited.forEach((m) => (cards += showPopularNews(m)));
-  console.log(popularList.results);
+  homeNews.results.forEach((m) => (cards += showHomeNews(m)));
+
   container.innerHTML = cards;
+  console.log(homeNews.results);
 }
 
 // Get Date
@@ -34,6 +49,16 @@ const options = {
 const currentDate = new Date().toLocaleDateString('en-US', options);
 dateContainer.innerHTML = currentDate;
 
+const formatDate = (date) => {
+  const options = {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  };
+
+  return new Date(date).toLocaleDateString(undefined, options);
+};
+
 // search news
 async function searchNews(keyword) {
   const response = await fetch(`https://api.nytimes.com/svc/search/v2/articlesearch.json?q=${keyword}&api-key=${API_KEY}`);
@@ -44,23 +69,35 @@ async function searchNews(keyword) {
   console.log(searchList.response.docs);
 }
 
-popularNews();
+homeSection();
 
 // Show Most Popular News
-function showPopularNews(popular) {
+function showHomeNews(home) {
   return `
-    <div class="col-xl-4">
-        <div class="card p-4 mb-5">
-            <img src=" 
-            ${popular.media.length > 0 ? popular.media[0]['media-metadata'][2].url : 'https://upload.wikimedia.org/wikipedia/commons/0/0e/Nytimes_hq.jpg'}" class="img-fluid" alt="" loading="lazy">
-
-            <div class="card-body">
-                <h5 class="card-title">${popular.title}</h5>
-                <p class="card-text">${popular.abstract}</p>
-                <a href="${popular.url}" class="btn btn-primary">Read More</a>
-            </div>
+  <div class="news pb-4 border-bottom">
+    <div class="main-content">
+      <div class="d-flex flex-row justify-content-between">
+        <div class="section bg-dark-subtle p-2">${formatSection(home.section)}</div>
+        <div class="date text-black-50 p-2">${formatDate(home.published_date)}</div>
+      </div>
+      <div class="desc-image">
+        <div class="description">
+          <div class="title">Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus, tenetur.</div>
+          <div class="byline">Lorem ipsum dolor sit.</div>
+          <div class="abstract">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Aut expedita rerum distinctio et blanditiis perspiciatis, mollitia quas fuga sequi odio exercitationem, qui nisi veniam incidunt rem delectus iste, eos quasi.
+          </div>
         </div>
-    </div>`;
+        <div class="image">
+          <img src="https://placeholder.pics/svg/500x300" alt="" />
+        </div>
+        <div class="abstract-mobile">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Aut expedita rerum distinctio et blanditiis perspiciatis, mollitia quas fuga sequi odio exercitationem, qui nisi veniam incidunt rem delectus iste, eos quasi.
+          </div>
+      </div>
+    </div>
+  </div>
+  `;
 }
 
 // Show search news
