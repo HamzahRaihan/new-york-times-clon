@@ -53,8 +53,13 @@ body {
   max-width: 100%;
 }
 
-.spinner-border {
-  display: none;
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 20vh;
+  width: 100%;
+  z-index: 1;
 }
 
 /* change every 4th article */

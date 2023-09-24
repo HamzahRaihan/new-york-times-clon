@@ -2,6 +2,8 @@ import API_KEY from './apiKey.js';
 
 const searchButton = document.querySelector('.search-button');
 const container = document.querySelector('.news-container');
+const loading = document.querySelector('.loading');
+console.log(loading);
 
 searchButton.addEventListener('click', () => {
   const inputKeyword = document.querySelector('.input-keyword').value;
@@ -15,34 +17,39 @@ const navLink = document.querySelectorAll('.btn-light');
 navLink.forEach((m) => {
   m.addEventListener('click', () => {
     const section = m.id;
-    console.log('🚀 ~ file: script.js:18 ~ m.addEventListener ~ section:', section);
     getNewsBySection(section);
   });
 });
-
-const loading = document.querySelector('.spinner-border');
-
 // Home Section News
-async function getNewsBySection(section) {
-  loading.style.display = 'block';
-
-  const response = await fetch(`https://api.nytimes.com/svc/topstories/v2/${section}.json?api-key=${API_KEY}`);
-  const news = await response.json();
-  let cards = '';
-  news.results.forEach((m) => (cards += showHomeNews(m)));
-  loading.style.display = 'none';
-  container.innerHTML = cards;
-}
-
 async function getHomeNews() {
   const response = await fetch(`https://api.nytimes.com/svc/topstories/v2/home.json?api-key=${API_KEY}`);
   const homeNews = await response.json();
   let cards = '';
   homeNews.results.forEach((m) => (cards += showHomeNews(m)));
-
   container.innerHTML = cards;
   console.log(homeNews.results);
 }
+
+async function getNewsBySection(section) {
+  loading.style.display = 'block';
+  console.log('🚀 ~ file: script.js:35 ~ getNewsBySection ~ loading:', loading);
+  try {
+    const response = await fetch(`https://api.nytimes.com/svc/topstories/v2/${section}.json?api-key=${API_KEY}`);
+    if (!response.ok) {
+      throw new Error('Something went wrong');
+    } else {
+      const news = await response.json();
+      let cards = '';
+      news.results.forEach((m) => (cards += showHomeNews(m)));
+      container.innerHTML = cards;
+    }
+  } catch (error) {
+    console.log(error);
+  } finally {
+    loading.style.display = 'none';
+  }
+}
+
 getHomeNews();
 
 // Search News
