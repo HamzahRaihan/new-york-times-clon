@@ -3,6 +3,81 @@ import API_KEY from './apiKey.js';
 const searchButton = document.querySelector('.search-button');
 const container = document.querySelector('.news-container');
 
+searchButton.addEventListener('click', () => {
+  const inputKeyword = document.querySelector('.input-keyword').value;
+  const search = searchNews(inputKeyword);
+  showSearchNews(search);
+  console.log(inputKeyword);
+  console.log(searchButton);
+});
+
+const navLink = document.querySelectorAll('.btn-light');
+navLink.forEach((m) => {
+  m.addEventListener('click', () => {
+    const section = m.id;
+    console.log('🚀 ~ file: script.js:18 ~ m.addEventListener ~ section:', section);
+    getNewsBySection(section);
+  });
+});
+
+const loading = document.querySelector('.spinner-border');
+
+// Home Section News
+async function getNewsBySection(section) {
+  loading.style.display = 'block';
+
+  const response = await fetch(`https://api.nytimes.com/svc/topstories/v2/${section}.json?api-key=${API_KEY}`);
+  const news = await response.json();
+  let cards = '';
+  news.results.forEach((m) => (cards += showHomeNews(m)));
+  loading.style.display = 'none';
+  container.innerHTML = cards;
+}
+
+async function getHomeNews() {
+  const response = await fetch(`https://api.nytimes.com/svc/topstories/v2/home.json?api-key=${API_KEY}`);
+  const homeNews = await response.json();
+  let cards = '';
+  homeNews.results.forEach((m) => (cards += showHomeNews(m)));
+
+  container.innerHTML = cards;
+  console.log(homeNews.results);
+}
+getHomeNews();
+
+// Search News
+async function searchNews(keyword) {
+  const response = await fetch(`https://api.nytimes.com/svc/search/v2/articlesearch.json?q=${keyword}&api-key=${API_KEY}`);
+  const searchList = await response.json();
+  let cards = '';
+  searchList.response.docs.forEach((m) => (cards += showSearchNews(m)));
+  container.innerHTML = cards;
+}
+
+// Get Date
+const dateContainer = document.querySelector('.current-date');
+
+const options = {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+  weekday: 'long',
+};
+const currentDate = new Date().toLocaleDateString('en-US', options);
+dateContainer.innerHTML = currentDate;
+
+// format Date
+const formatDate = (date) => {
+  const options = {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  };
+
+  return new Date(date).toLocaleDateString(undefined, options);
+};
+
+// format Section
 const formatSection = (section) => {
   switch (section) {
     case 'us':
@@ -18,85 +93,39 @@ const formatSection = (section) => {
   }
 };
 
-searchButton.addEventListener('click', () => {
-  const inputKeyword = document.querySelector('.input-keyword ').value;
-  const search = searchNews(inputKeyword);
-  showSearchNews(search);
-  console.log(inputKeyword);
-  console.log(searchButton);
-});
-
-// Most Popular News
-async function homeSection() {
-  const response = await fetch(`https://api.nytimes.com/svc/topstories/v2/home.json?api-key=${API_KEY}`);
-  const homeNews = await response.json();
-  let cards = '';
-  homeNews.results.forEach((m) => (cards += showHomeNews(m)));
-
-  container.innerHTML = cards;
-  console.log(homeNews.results);
-}
-
-// Get Date
-const dateContainer = document.querySelector('.current-date');
-
-const options = {
-  year: 'numeric',
-  month: 'long',
-  day: 'numeric',
-  weekday: 'long',
-};
-const currentDate = new Date().toLocaleDateString('en-US', options);
-dateContainer.innerHTML = currentDate;
-
-const formatDate = (date) => {
-  const options = {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  };
-
-  return new Date(date).toLocaleDateString(undefined, options);
-};
-
-// search news
-async function searchNews(keyword) {
-  const response = await fetch(`https://api.nytimes.com/svc/search/v2/articlesearch.json?q=${keyword}&api-key=${API_KEY}`);
-  const searchList = await response.json();
-  let cards = '';
-  searchList.response.docs.forEach((m) => (cards += showSearchNews(m)));
-  container.innerHTML = cards;
-  console.log(searchList.response.docs);
-}
-
-homeSection();
-
-// Show Most Popular News
-function showHomeNews(home) {
+// Show Home Section News
+function showHomeNews(news) {
   return `
-  <div class="news pb-4 border-bottom">
-    <div class="main-content">
-      <div class="d-flex flex-row justify-content-between">
-        <div class="section bg-dark-subtle p-2">${formatSection(home.section)}</div>
-        <div class="date text-black-50 p-2">${formatDate(home.published_date)}</div>
+  ${
+    news.title && news.multimedia && news.abstract && news.byline && news.section
+      ? ` <div class="news pb-4 border-bottom">
+  <div class="main-content">
+    <div class="d-flex flex-row justify-content-between">
+      <div class="section bg-dark-subtle p-2">${formatSection(news.section)}</div>
+      <div class="date text-black-50 p-2">${formatDate(news.published_date)}</div>
+    </div>
+    <div class="desc-image">
+      <div class="description">
+        <div class="title  fw-bold">
+          <a class="text-decoration-none text-black" href="${news.url}">${news.title}</a>
+        </div>
+        <div class="byline text-black-50"><p class="p-0 m-0">${news.byline}</p> </div>
+        <div class="abstract">
+          <p>${news.abstract}</p>
+        </div>
       </div>
-      <div class="desc-image">
-        <div class="description">
-          <div class="title">Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus, tenetur.</div>
-          <div class="byline">Lorem ipsum dolor sit.</div>
-          <div class="abstract">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Aut expedita rerum distinctio et blanditiis perspiciatis, mollitia quas fuga sequi odio exercitationem, qui nisi veniam incidunt rem delectus iste, eos quasi.
-          </div>
-        </div>
-        <div class="image">
-          <img src="https://placeholder.pics/svg/500x300" alt="" />
-        </div>
-        <div class="abstract-mobile">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Aut expedita rerum distinctio et blanditiis perspiciatis, mollitia quas fuga sequi odio exercitationem, qui nisi veniam incidunt rem delectus iste, eos quasi.
-          </div>
+      <div class="image">
+        <img src="${news.multimedia[1].url}" class="img-fluid" alt="" />
+      </div>
+      <div class="abstract-mobile">
+         <p>${news.abstract}</p>
       </div>
     </div>
   </div>
+</div>`
+      : ''
+  }
+  
   `;
 }
 
