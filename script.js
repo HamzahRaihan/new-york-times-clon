@@ -184,7 +184,7 @@ function showHomeNews(news) {
             </div>
             <div class="desc-image">
               <div class="description">
-                <div class="title  fw-bold">
+                <div class="title fw-bold">
                   <a class="text-decoration-none text-black" href="${news.url}">${news.title}</a>
                 </div>
                 <div class="byline text-black-50"><p class="p-0 m-0">${news.byline}</p> </div>
@@ -208,25 +208,21 @@ function showHomeNews(news) {
 // Show search news
 function showSearchNews(search) {
   return `
-    <div class="col-xl-4">
-        <div class="card p-4 mb-5">
-            <div class="card-body">
-                <h5 class="card-title">${search.headline.main}</h5>
-                <p class="card-text">
-                ${
-                  search.pub_date
-                    ? new Date(search.pub_date).toLocaleDateString('en-US', {
-                        weekday: 'long',
-                        day: 'numeric',
-                        month: 'long',
-                        year: 'numeric',
-                      })
-                    : ''
-                }</p>
-                <p class="card-text">${search.byline.original ? search.byline.original : ''}</p>
-                <div class="badge bg-primary d-block mb-2" style="width: 40%;">${search.news_desk ? search.news_desk : 'none'}</div>
-                <a href="${search.web_url}" class="btn btn-primary">Read More</a>
-            </div>
-        </div>
-    </div>`;
+  <div class="search-news d-block w-100 border-bottom">
+    <div class="search-content">
+      <div class="d-flex flex-row justify-content-between">
+        <div class="search-section bg-dark-subtle p-2">${formatSection(search.section_name)}</div>
+        <div class="search-text text-black-50 p-2">${formatDate(search.pub_date)}</div>
+      </div>
+        <div class="description-search">
+          <div class="search-title fw-bold">
+            <a class="text-decoration-none text-black fs-3" href="${search.web_url}">${search.headline.main}</a>
+          </div>
+          <div class="search-byline text-black-50"><p class="p-0 m-0">${search.byline ? search.byline.original : ''}</p></div>
+          <div class="search-abstract">
+            <p>${search.abstract}</p>
+          </div>
+      </div>
+    </div>
+  </div>`;
 }
