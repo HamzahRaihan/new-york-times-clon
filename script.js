@@ -48,6 +48,53 @@ function showSectionList() {
 
 showSectionList();
 
+// Burger button
+const burgerButton = document.querySelector('.burger-button');
+const exitButton = document.querySelector('.exit-button');
+const sidebar = document.querySelector('.sidebar');
+const body = document.body;
+
+burgerButton.addEventListener('click', () => {
+  toggleSidebar();
+});
+
+exitButton.addEventListener('click', () => {
+  toggleSidebar();
+});
+
+function toggleSidebar() {
+  burgerButton.classList.toggle('hidden');
+  exitButton.classList.toggle('show');
+  sidebar.classList.toggle('active');
+  body.classList.toggle('overflow');
+}
+
+// sidebar link
+const sidebarLink = document.querySelector('.sidebar-link');
+
+function showSidebarLink() {
+  const sidebarSearchButton = document.querySelector('.search-sidebar button');
+
+  sidebarSearchButton.addEventListener('click', () => {
+    toggleSidebar();
+  });
+
+  section.forEach((m) => {
+    sidebarLink.innerHTML += `<li class="list-group-item p-3">
+      <a class="text-decoration-none text-capitalize btn btn-light text-black" id="${m}">${formatSection(m)}</a>
+    </li>`;
+  });
+
+  const sidebarLinkButton = document.querySelectorAll('.sidebar-link a');
+  sidebarLinkButton.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      toggleSidebar();
+    });
+  });
+}
+
+showSidebarLink();
+
 // show footer section
 function showFooterList() {
   const footerSection = document.querySelector('.footer-column');
@@ -151,8 +198,8 @@ async function searchNews(keyword) {
 }
 
 // button search toggle
-const searchToggle = document.querySelector('.button-toggle');
-console.log('🚀 ~ file: script.js:155 ~ searchToggle:', searchToggle);
+const searchToggle = document.querySelector('.search-toggle');
+
 searchToggle.addEventListener('click', () => {
   const searchContainer = document.querySelector('.search-container');
   searchContainer.classList.toggle('active');
@@ -216,7 +263,7 @@ function showSearchNews(search) {
       </div>
         <div class="description-search">
           <div class="search-title fw-bold">
-            <a class="text-decoration-none text-black fs-3" href="${search.web_url}">${search.headline.main}</a>
+            <a class="text-decoration-none text-black fs-3" href="${search.web_url}">${search.headline ? search.headline.main : 'none'}</a>
           </div>
           <div class="search-byline text-black-50"><p class="p-0 m-0">${search.byline ? search.byline.original : ''}</p></div>
           <div class="search-abstract">

@@ -11,12 +11,63 @@ body {
   margin: 0 auto;
 }
 
+.overflow {
+  overflow-y: scroll;
+}
+
 .search-container {
   display: none !important;
 }
 .search-container.active {
   display: flex !important;
 }
+
+.sidebar {
+  display: none;
+}
+
+/*=============================================
+=            Section button                   =
+=============================================*/
+
+.burger-button {
+  display: none;
+}
+.exit-button {
+  display: none;
+}
+@media screen and (max-width: 1100px) {
+  .burger-button {
+    width: 30px;
+    display: flex;
+  }
+  .burger-button.hidden {
+    display: none;
+  }
+  .sidebar {
+    display: none;
+  }
+  .sidebar.active {
+    position: absolute;
+    width: 100%;
+
+    overflow-y: auto;
+    display: block;
+    background-color: white;
+  }
+  .sidebar-link {
+    height: 1200px;
+  }
+  .exit-button {
+    width: 30px;
+    display: none;
+  }
+  .exit-button.show {
+    display: flex;
+  }
+}
+
+/*=====  End of Section button ======*/
 
 .news {
   display: flex;
@@ -127,6 +178,15 @@ body {
 @media screen and (max-width: 1100px) {
   .news {
     flex: 1 0 40%;
+  }
+  .nav-section {
+    display: none;
+  }
+  .search-toggle {
+    display: none;
+  }
+  .news:nth-child(4n + 1) .title {
+    font-size: x-large;
   }
 }
 @media screen and (max-width: 900px) {
