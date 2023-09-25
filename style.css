@@ -11,6 +11,13 @@ body {
   margin: 0 auto;
 }
 
+.search-container {
+  display: none !important;
+}
+.search-container.active {
+  display: flex !important;
+}
+
 .news {
   display: flex;
   flex-flow: row wrap;

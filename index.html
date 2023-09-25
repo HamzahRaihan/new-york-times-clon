@@ -15,13 +15,11 @@
             <img src="https://www.vectorlogo.zone/logos/nytimes/nytimes-wordmark.svg" class="p-3 img-fluid m-auto d-flex nyheader" alt="img-nytimes" />
           </div>
 
-          <div class="search-button">
-            <button class="btn btn-outline-dark">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
-                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
-              </svg>
-            </button>
-          </div>
+          <button class="button-toggle btn btn-outline-dark">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+              <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+            </svg>
+          </button>
         </div>
 
         <div class="nav-schedule p-3 bg-light border-top border-bottom">
@@ -30,12 +28,12 @@
         <div class="border-bottom p-3">
           <ul class="section-list d-flex flex-row p-0 justify-content-between m-auto"></ul>
         </div>
-        <form class="d-flex d-none" role="search">
-          <input class="form-control input-keyword me-2" type="search" placeholder="Search" aria-label="Search" />
-          <button class="btn btn-outline-success search-button" type="button">Search</button>
+        <form class="search-container d-flex mx-5 my-3" role="search">
+          <input class="form-control input-keyword text-capitalize" type="search" placeholder="Search" aria-label="Search" />
+          <button class="btn btn-outline-dark search-button text-capitalize" type="button">Search</button>
         </form>
       </nav>
-      <section class="section-container container-fluid text-capitalize"></section>
+      <section class="section-container container-fluid text-capitalize d-flex flex-column"></section>
     </header>
     <main>
       <section class="news-container container-fluid d-flex flex-row flex-wrap justify-content-between gap-3 pt-4">

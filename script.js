@@ -1,14 +1,5 @@
 import API_KEY from './apiKey.js';
 
-const searchButton = document.querySelector('.search-button');
-const container = document.querySelector('.news-container');
-
-searchButton.addEventListener('click', () => {
-  const inputKeyword = document.querySelector('.input-keyword').value;
-  const search = searchNews(inputKeyword);
-  showSearchNews(search);
-});
-
 // format Date
 const formatDate = (date) => {
   const options = {
@@ -36,8 +27,13 @@ const formatSection = (section) => {
   }
 };
 
+// Show section title
+function showSection(section) {
+  const sectionTitle = section === 'home' ? '' : `<p class="fw-bold pt-5 border-bottom fs-2">${formatSection(section)} News</p>`;
+  return sectionTitle;
+}
+
 // show navbar section
-const sectionContainer = document.querySelector('.section-container');
 const section = ['home', 'world', 'politics', 'nyregion', 'technology', 'opinion', 'science', 'arts', 'books', 'style', 'food', 'travel', 'magazine', 'movies'];
 
 const sectionList = document.querySelector('.section-list');
@@ -53,7 +49,6 @@ function showSectionList() {
 showSectionList();
 
 // show footer section
-
 function showFooterList() {
   const footerSection = document.querySelector('.footer-column');
 
@@ -82,6 +77,7 @@ showFooterList();
 const navLink = document.querySelectorAll('.btn-light');
 
 navLink.forEach((m) => {
+  const sectionContainer = document.querySelector('.section-container');
   m.addEventListener('click', () => {
     const section = m.id;
     console.log('🚀 ~ file: script.js:16 ~ m.addEventListener ~ section:', section);
@@ -132,13 +128,35 @@ async function getNewsBySection(section) {
 getHomeNews();
 
 // Search News
+const searchButton = document.querySelector('.search-button');
+const container = document.querySelector('.news-container');
+
+searchButton.addEventListener('click', () => {
+  showLoading();
+  const sectionContainer = document.querySelector('.section-container');
+  const inputKeyword = document.querySelector('.input-keyword').value;
+  const search = searchNews(inputKeyword);
+  sectionContainer.innerHTML = `<div class="pt-2">Showing results for:</div>
+    <div class="fw-bold fs-3 text-capitalize border-bottom pb-2">${inputKeyword}</div>`;
+  showSearchNews(search);
+});
+
 async function searchNews(keyword) {
   const response = await fetch(`https://api.nytimes.com/svc/search/v2/articlesearch.json?q=${keyword}&api-key=${API_KEY}`);
   const searchList = await response.json();
   let cards = '';
   searchList.response.docs.forEach((m) => (cards += showSearchNews(m)));
   container.innerHTML = cards;
+  hideLoading();
 }
+
+// button search toggle
+const searchToggle = document.querySelector('.button-toggle');
+console.log('🚀 ~ file: script.js:155 ~ searchToggle:', searchToggle);
+searchToggle.addEventListener('click', () => {
+  const searchContainer = document.querySelector('.search-container');
+  searchContainer.classList.toggle('active');
+});
 
 // Get Date
 const dateContainer = document.querySelector('.current-date');
@@ -151,12 +169,6 @@ const options = {
 };
 const currentDate = new Date().toLocaleDateString('en-US', options);
 dateContainer.innerHTML = currentDate;
-
-// Show section title
-function showSection(section) {
-  const sectionTitle = section === 'home' ? '' : `<p class="fw-bold pt-5 border-bottom fs-2">${formatSection(section)} News</p>`;
-  return sectionTitle;
-}
 
 // Show Home Section News
 function showHomeNews(news) {
