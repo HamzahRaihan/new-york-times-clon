@@ -12,7 +12,7 @@ body {
 }
 
 .overflow {
-  overflow-y: scroll;
+  overflow-y: hidden;
 }
 
 .search-container {
