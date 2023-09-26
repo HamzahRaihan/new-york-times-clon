@@ -23,9 +23,9 @@ Users should be able to:
 
 ## Built with
 
--Semantic HTML5
--Pure CSS
--Vanilla Javascript
--Javascript DOM
--Bootstrap 5
--HeroIcons
+- Semantic HTML5
+- Pure CSS
+- Vanilla Javascript
+- Javascript DOM
+- Bootstrap 5
+- HeroIcons
